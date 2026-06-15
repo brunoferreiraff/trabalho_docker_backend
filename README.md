@@ -168,10 +168,11 @@ docker build -t backend-filmes .
 
 ```bash
 docker run -d \
-  --name api-filmes \
-  --network filme-net \
+  docker run --rm --name cadastro-filme \
+  --network cadastro-net \
   -p 8080:8080 \
-  backend-filmes
+  -e SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-db:5432/banco \
+  cadastro-filme
 ```
 
 ---
