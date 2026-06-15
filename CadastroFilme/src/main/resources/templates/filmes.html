@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Catálogo de Filmes</title>
     <style>
-            :root {
+        :root {
             --bg: #f8fafc;
             --surface: #ffffff;
             --primary: #2563eb;
@@ -36,7 +36,7 @@
         }
 
         header {
-            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), 
+            background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
                               url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?q=80&w=1200&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
@@ -162,57 +162,123 @@
             opacity: 1;
         }
 
-        .card {
-            background-color: var(--surface);
+        .filmes-list {
+            display: flex;
+            flex-direction: column;
             border: 1px solid var(--border);
             border-radius: 12px;
             overflow: hidden;
+            background-color: var(--surface);
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .filme-item {
+            border-bottom: 1px solid var(--border);
         }
 
-        th {
+        .filme-item:last-child {
+            border-bottom: 0;
+        }
+
+        .filme-trigger {
+            width: 100%;
+            background: none;
+            border: 0;
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            cursor: pointer;
             text-align: left;
+            transition: background-color 0.15s;
+            color: var(--text-dark);
+            font-family: inherit;
+        }
+
+        .filme-trigger:hover {
+            background-color: #f8fafc;
+        }
+
+        .filme-trigger.aberto {
+            background-color: #eff6ff;
+            color: var(--primary);
+        }
+
+        .filme-trigger-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .filme-trigger-id {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            min-width: 28px;
+        }
+
+        .filme-trigger.aberto .filme-trigger-id {
+            color: var(--primary);
+            opacity: 0.7;
+        }
+
+        .filme-trigger-nome {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .filme-chevron {
+            flex-shrink: 0;
+            transition: transform 0.25s ease;
+            color: var(--text-muted);
             font-size: 0.8rem;
+        }
+
+        .filme-trigger.aberto .filme-chevron {
+            transform: rotate(180deg);
+            color: var(--primary);
+        }
+
+        .filme-detalhe {
+            display: none;
+            padding: 16px 24px 20px 24px;
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border);
+        }
+
+        .filme-detalhe.aberto {
+            display: block;
+        }
+
+        .filme-detalhe-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filme-detalhe-item label {
+            display: block;
+            font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             color: var(--text-muted);
             font-weight: 700;
-            padding: 16px 24px;
-            background-color: #f8fafc;
-            border-bottom: 1px solid var(--border);
+            margin-bottom: 4px;
         }
 
-        th.end {
-            text-align: right;
-        }
-
-        td {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border);
+        .filme-detalhe-item span {
             font-size: 0.95rem;
-            color: #334155;
+            color: var(--text-dark);
+            font-weight: 500;
         }
 
-        tr:last-child td {
-            border-bottom: 0;
-        }
-
-        tbody tr:hover {
-            background-color: #f8fafc;
-        }
-
-        .actions {
-            text-align: right;
-            white-space: nowrap;
-        }
-
-        .actions .btn {
-            margin-left: 8px;
+        .filme-detalhe-actions {
+            display: flex;
+            gap: 8px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
         }
 
         .empty {
@@ -222,17 +288,10 @@
             font-size: 1rem;
         }
 
-        /* Responsividade para Telas Pequenas */
-        @media (max-width: 640px) {
-            thead { display: none; }
-            table, tbody, tr, td { display: block; width: 100%; }
-            tr { border-bottom: 1px solid var(--border); padding: 12px 0; }
-            tr:last-child { border-bottom: 0; }
-            td { border: 0; padding: 8px 20px; display: flex; justify-content: space-between; text-align: right; }
-            td::before { content: attr(data-label); color: var(--text-muted); font-weight: 600; font-size: 0.85rem; text-align: left; }
-            .actions { justify-content: flex-end; }
-            .actions::before { display: none; }
-            .actions .btn:first-child { margin-left: 0; }
+        @media (max-width: 560px) {
+            .filme-detalhe-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
     </style>
 </head>
@@ -260,45 +319,70 @@
         <button type="button" class="close" aria-label="Fechar">&times;</button>
     </div>
 
-    <div class="card">
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>Gênero</th>
-                <th>Duração</th>
-                <th>Classificação</th>
-                <th class="end">Ações</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="filme : ${filmes}">
-                <td data-label="ID" th:text="${filme.id}">1</td>
-                <td data-label="Nome" th:text="${filme.nome}">Nome do Filme</td>
-                <td data-label="Gênero" th:text="${filme.genero}">Gênero</td>
-                <td data-label="Duração" th:text="${filme.duracao != null} ? ${filme.duracao + ' min'} : '—'">0 min</td>
-                <td data-label="Classificação" th:text="${filme.classificacao}">Classificação</td>
-                <td data-label="Ações" class="actions">
+    <div class="filmes-list">
+
+        <div th:each="filme : ${filmes}" class="filme-item">
+            <button type="button" class="filme-trigger js-trigger">
+                <div class="filme-trigger-left">
+                    <span class="filme-trigger-id" th:text="'#' + ${filme.id}">#1</span>
+                    <span class="filme-trigger-nome" th:text="${filme.nome}">Nome do Filme</span>
+                </div>
+                <span class="filme-chevron">&#9660;</span>
+            </button>
+            <div class="filme-detalhe">
+                <div class="filme-detalhe-grid">
+                    <div class="filme-detalhe-item">
+                        <label>Gênero</label>
+                        <span th:text="${filme.genero}">—</span>
+                    </div>
+                    <div class="filme-detalhe-item">
+                        <label>Duração</label>
+                        <span th:text="${filme.duracao != null} ? ${filme.duracao + ' min'} : '—'">—</span>
+                    </div>
+                    <div class="filme-detalhe-item">
+                        <label>Classificação</label>
+                        <span th:text="${filme.classificacao}">—</span>
+                    </div>
+                </div>
+                <div class="filme-detalhe-actions">
                     <a th:href="@{/filmes/editar/{id}(id=${filme.id})}" class="btn btn-sm btn-outline">Alterar</a>
                     <a th:href="@{/filmes/excluir/{id}(id=${filme.id})}" class="btn btn-sm btn-outline btn-danger-outline js-delete">Excluir</a>
-                </td>
-            </tr>
-            <tr th:if="${filmes.isEmpty()}">
-                <td colspan="6" class="empty">Nenhum filme cadastrado no momento.</td>
-            </tr>
-            </tbody>
-        </table>
+                </div>
+            </div>
+        </div>
+
+        <div th:if="${filmes.isEmpty()}" class="empty">Nenhum filme cadastrado no momento.</div>
+
     </div>
 
 </main>
 
 <script>
-    $(function () {
-        $('.alert .close').on('click', function () {
-            $(this).closest('.alert').remove();
+    document.querySelectorAll('.alert .close').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+            this.closest('.alert').remove();
         });
-        $('.js-delete').on('click', function (e) {
+    });
+
+    document.querySelectorAll('.js-trigger').forEach(function (trigger) {
+        trigger.addEventListener('click', function () {
+            var detalhe = this.nextElementSibling;
+            var aberto = this.classList.contains('aberto');
+
+            document.querySelectorAll('.filme-trigger.aberto').forEach(function (t) {
+                t.classList.remove('aberto');
+                t.nextElementSibling.classList.remove('aberto');
+            });
+
+            if (!aberto) {
+                this.classList.add('aberto');
+                detalhe.classList.add('aberto');
+            }
+        });
+    });
+
+    document.querySelectorAll('.js-delete').forEach(function (link) {
+        link.addEventListener('click', function (e) {
             if (!confirm('Deseja realmente excluir este filme?')) e.preventDefault();
         });
     });
