@@ -6,9 +6,13 @@ Desenvolver a continuação do sistema iniciado em aula, integrando front-end e 
 ## Itens Obrigatório
 
 | Componentes da Equipe| Bruno César Franca Ferreira; Caio Campos; Guilherme Augusto dos Santos; Fernando Menezes |
+<br></br>
 | Tema escolhido | Sistema de Cadastro de Filmes |
+<br></br>
 | Tecnologias usadas | Spring Boot, Thymeleaf, Spring Data JPA, H2 Database, Bootstrap |
+<br></br>
 | Funcionalidades | Cadastrar, Listar, Alterar, Excluir |
+<br></br>
 | Como executar |
 
 
