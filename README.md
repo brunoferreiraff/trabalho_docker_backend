@@ -69,22 +69,22 @@ http://localhost:8080/filmes
 ```
 # COMANDOS POSTGRESQL NO DOCKER
 
-# 1. VER TODOS OS FILMES (Todas as colunas)
+## 1. VER TODOS OS FILMES (Todas as colunas)
 docker exec -it postgres-db psql -U postgres -d banco -c "SELECT * FROM filme;"
 
-# 2. VER TODOS OS TÍTULOS (Apenas a coluna 'nome')
+## 2. VER TODOS OS TÍTULOS (Apenas a coluna 'nome')
 docker exec -it postgres-db psql -U postgres -d banco -c "SELECT nome FROM filme;"
 
-# 3. VER QUANTAS ENTRADAS POSSUEM NO BANCO (Contagem)
+## 3. VER QUANTAS ENTRADAS POSSUEM NO BANCO (Contagem)
 docker exec -it postgres-db psql -U postgres -d banco -c "SELECT COUNT(*) FROM filme;"
 
-# 4. ADICIONAR UMA ENTRADA (Inserir novo filme)
+## 4. ADICIONAR UMA ENTRADA (Inserir novo filme)
 docker exec -it postgres-db psql -U postgres -d banco -c "INSERT INTO filme (classificacao, duracao, genero, nome) VALUES (16, 148, 'Ficção Científica', 'Inception');"
 
-# 5. ALTERAR UMA ENTRADA (Atualizar dados - Filtro por ID)
+## 5. ALTERAR UMA ENTRADA (Atualizar dados - Filtro por ID)
 docker exec -it postgres-db psql -U postgres -d banco -c "UPDATE filme SET genero = 'Ação', classificacao = 14 WHERE id = 6;"
 
-# 6. EXCLUIR UM ITEM DO BANCO (Deletar - Filtro por ID)
+## 6. EXCLUIR UM ITEM DO BANCO (Deletar - Filtro por ID)
 docker exec -it postgres-db psql -U postgres -d banco -c "DELETE FROM filme WHERE id = 6;"
 
 ## Fluxo de uso
