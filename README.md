@@ -53,17 +53,39 @@ filme-crud
 ## Como executar
 
 Pré-requisitos: Java 17 (ou superior) e Maven instalados.
-
-1. Clique com o botão direito em cima do arquivo " CadastroFilmeApplication.java"
-2. Selecione "Run As "
-3. Escolha a Opção " Spring Boot App"
-4. Clique duas vezes no arquivo que está no Boot Dashboard
-5. Acesse no navegador:
+1. Abra o eclipse e seleciona o projeto CadastroFilme.java
+2. Abra o docker
+3. Procure pela imagem do postgres:latest
+4. Configure o container: 1. Nome: postgres-db; 2. Port: 5432. 3. Variavel: POSTGRES_PASSWORLD; 4. Value: postgres
+5. Rode o container
+6. No eclipse, clique com o botão direito em cima do arquivo " CadastroFilmeApplication.java"
+4. Selecione "Run As "
+5. Escolha a Opção " Spring Boot App"
+6. Clique duas vezes no arquivo que está no Boot Dashboard
+7. Acesse no navegador:
 
 ```
 http://localhost:8080/filmes
 ```
+# COMANDOS POSTGRESQL NO DOCKER
 
+# 1. VER TODOS OS FILMES (Todas as colunas)
+docker exec -it postgres-db psql -U postgres -d banco -c "SELECT * FROM filme;"
+
+# 2. VER TODOS OS TÍTULOS (Apenas a coluna 'nome')
+docker exec -it postgres-db psql -U postgres -d banco -c "SELECT nome FROM filme;"
+
+# 3. VER QUANTAS ENTRADAS POSSUEM NO BANCO (Contagem)
+docker exec -it postgres-db psql -U postgres -d banco -c "SELECT COUNT(*) FROM filme;"
+
+# 4. ADICIONAR UMA ENTRADA (Inserir novo filme)
+docker exec -it postgres-db psql -U postgres -d banco -c "INSERT INTO filme (classificacao, duracao, genero, nome) VALUES (16, 148, 'Ficção Científica', 'Inception');"
+
+# 5. ALTERAR UMA ENTRADA (Atualizar dados - Filtro por ID)
+docker exec -it postgres-db psql -U postgres -d banco -c "UPDATE filme SET genero = 'Ação', classificacao = 14 WHERE id = 6;"
+
+# 6. EXCLUIR UM ITEM DO BANCO (Deletar - Filtro por ID)
+docker exec -it postgres-db psql -U postgres -d banco -c "DELETE FROM filme WHERE id = 6;"
 
 ## Fluxo de uso
 
